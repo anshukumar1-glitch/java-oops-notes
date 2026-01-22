@@ -278,5 +278,123 @@ names.stream()
      .filter(Predicate.not(String::isEmpty))
      .forEach(System.out::println);
 ```
-## FUNCTION
-   
+## FUNCTION<T,R>
+ It takes one input and returns one output
+ T → input type
+ R → return type
+- It is also a functional interface having one abstract method.
+ `R apply(T t); ` and two default method and one static method.
+- The main purpose of Function<T, R> is to TRANSFORM data from one form to another.
+
+Before Java 8:
+- Transformation logic was stuck inside loops
+- Could not pass logic as a parameter
+- Code was not reusable
+
+Java 8 introduced Function so that:
+- Transformation logic becomes reusable
+- Logic can be passed as an argument
+- Works perfectly with Stream API
+
+  METHODS of Function<T,R>
+   ```java
+     DEFAULT METHODS
+      - compose()
+      - andThen()
+     STATIC METHODS
+      - identity()
+   ```
+   Question : Takes a input as a String and gives its length as output.
+  ```java
+     Function<String,Integer>func=(x)->x.length();
+      func.apply("Song");
+  ```
+  1️⃣ Used by map() in Stream API (MOST IMPORTANT)
+  ```java
+   List<String> names = List.of("Java", "Stream", "API");
+   List<Integer> lengths =
+        names.stream()
+             .map(s -> s.length())
+             .toList();
+     Here: map() requires a Function
+   s -> s.length() is a Function<String, Integer>
+  👉 This is the #1 reason Function exists
+  ```
+  ```java
+    Function<Employee, String> getName = emp -> emp.getName();
+     employees.stream()
+         .map(getName)
+         .forEach(System.out::println);
+  First maked a function to get A name of employee
+  now use it with stream and map to print it.
+  Like taking an employee object and returning the string name
+  ```
+Method Reference with Function--padhna hai
+### FUNCTION CHAINING
+Function chaining means combining multiple Function<T, R> operations so that the output of one function becomes the input of the next.
+`Input → Function1 → Function2 → Function3 → Output`
+```java
+ Function<Integer, Integer> multiply = x -> x * 2;
+Function<Integer, Integer> add = x -> x + 3;
+Function<Integer, Integer> chained = multiply.andThen(add);
+System.out.println(chained.apply(5)); // (5 * 2) + 3 = 13
+```
+ 👉🔹 andThen() vs compose() (VERY IMPORTANT)
+ ```java
+Function<Integer, Integer> multiply = x -> x * 2;
+Function<Integer, Integer> add = x -> x + 3;
+multiply.andThen(add).apply(5);   // 13
+multiply.compose(add).apply(5);   // 16
+
+| Method    | Execution Order |
+| --------- | --------------- |
+| `andThen` | this → after    |
+| `compose` | before → this
+|  identity → only print the given input   |
+
+
+List<Integer> numbers = List.of(1, 2, 3, 4);
+
+Function<Integer, Integer> doubleValue = n -> n * 2;
+Function<Integer, Integer> addTen = n -> n + 10;
+
+List<Integer> result =
+        numbers.stream()
+               .map(doubleValue.andThen(addTen))
+               .toList();
+
+System.out.println(result); // [12, 14, 16, 18]
+
+
+```
+#### Important
+ 🔹 Key Difference: Function Chaining vs Multiple map()
+Style	Meaning
+map(f1.andThen(f2))	Explicit chaining
+map(f1).map(f2)	Implicit chaining
+
+```java
+List<Integer> result =
+        numbers.stream()
+               .map(n -> n * 2)
+               .map(n -> n + 5)
+               .toList();
+
+Because map uses function.
+```
+`Remember This ----`
+map → Function
+filter → Predicate
+forEach → Consumer
+
+✅ Use when:
+ - One input → one output
+ - Data conversion
+ - Stream map()
+ - Clean & reusable logic
+
+❌ Don’t use when:
+- Returning boolean → use Predicate
+- No return value → use Consumer
+- No input → use Supplier
+
