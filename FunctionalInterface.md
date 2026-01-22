@@ -162,3 +162,121 @@ O/p-Hello
     }
   )✅
   ```
+  ## PREDICATE
+     It is the functional interface which represent the boolean valued function.It is used mainly used for conditions / filtering / validation.
+  Predicate represents a boolean condition and is mainly used for filtering and validation in Java 8 streams.
+  It contains one abstract method called `boolean Test(T t)`;
+  It also contains default and static method.
+  ```
+    Default Methods:
+     - and()
+     - or()
+     - negate()
+   Static Methods:
+     - not()
+     - isEqual()
+   ```
+  
+
+- Why it was Introduced:-
+  Before Java 8:
+   Conditions were written using:
+     if-else
+    anonymous classes
+ repetitive validation logic
+Hard to reuse conditions
+Not suitable for functional programming.
+
+- Predicate was introduced to represent a condition as an object, so it can be:
+Passed as an argument
+Reused
+Combined
+Used in streams
+
+- It is mostly used in Stream Api like in `filter(Predicate<T>)` method
+### Interview Question🔔
+ 1. Why Predicate returns boolean only?
+   Because it represents a condition, not a transformation.
+2. Can we write our own Predicate?
+✔ Yes, using lambda or method reference.
+3. When NOT to Use Predicate?
+❌ When you need to transform data → use Function
+❌ When no input is needed → use Supplier
+❌ When no return is needed → use Consumer
+4. Why use Predicate.not() instead of negate()?
+✔ Cleaner syntax, especially with method references.
+5. Is Predicate.isEqual() null-safe?
+✔ Yes, it uses Objects.equals().
+6. Can Predicate be chained?
+✔ Yes, Predicate can be chained
+Using default methods provided in Predicate:
+`
+and()
+or()
+negate()
+`
+These methods allow you to combine multiple conditions into one.
+1️⃣ Chaining using and():Both conditions must be true
+```java
+   Predicate<Integer> greaterThan10 = n -> n > 10;
+Predicate<Integer> even = n -> n % 2 == 0;
+
+Predicate<Integer> combined =
+        greaterThan10.and(even);
+
+System.out.println(combined.test(12)); // true
+System.out.println(combined.test(9));  // false
+```
+2️⃣ Chaining using or(): At least one condition should be true
+```java
+   Predicate<Integer> lessThan5 = n -> n < 5;
+Predicate<Integer> greaterThan20 = n -> n > 20;
+
+Predicate<Integer> combined =
+        lessThan5.or(greaterThan20);
+
+System.out.println(combined.test(3));   // true
+System.out.println(combined.test(15));  // false
+System.out.println(combined.test(25));  // true
+```
+3️⃣ Chaining using negate():Reverses the condition
+```java
+Predicate<Integer> isEven = n -> n % 2 == 0;
+Predicate<Integer> isOdd = isEven.negate();
+System.out.println(isOdd.test(7));  // true
+```
+#### Predicate.isEqual() and Predicate.not() (Java 11+)
+These are utility methods added to make predicate usage cleaner, safer, and more readable.
+`Predicate.isEqual()` is a static method that returns a Predicate which checks equality using Objects.equals().
+`static <T> Predicate<T> isEqual(Object targetRef)`
+So it is:
+null-safe
+Uses .equals() not (==)
+s -> s.equals("Java")   // ❌ can throw NullPointerException
+```java
+Predicate<String> isJava = Predicate.isEqual("Java");
+
+System.out.println(isJava.test("Java")); // true
+System.out.println(isJava.test("Python")); // false
+System.out.println(isJava.test(null)); // false (no exception)
+
+Using isEqual() in Stream API
+List<String> langs = List.of("Java", "Python", "Java");
+langs.stream()
+     .filter(Predicate.isEqual("Java"))
+     .forEach(System.out::println);
+
+Predicate.isEqual() is preferred over equals() in lambdas because it is null-safe.
+```
+`Predicate.not()` is a static method that returns the negation of a predicate.
+`static <T> Predicate<T> not(Predicate<? super T> target)`
+Internally:
+t -> !target.test(t)
+```java
+List<String> names = List.of("Anshu", "", "Amit", "");
+names.stream()
+     .filter(Predicate.not(String::isEmpty))
+     .forEach(System.out::println);
+```
+## FUNCTION
+   
