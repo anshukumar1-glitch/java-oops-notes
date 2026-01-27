@@ -37,7 +37,7 @@ BookPrinter class → handles printing/output
 
 - Key Idea: If a class is doing more than one thing, split it.
 
-### OPEN/CLOSED PRINCIPLE(OCP)
+### 2.OPEN/CLOSED PRINCIPLE(OCP)
   - It says Classes should be open for extension but closed for modification. In doing so, we stop ourselves from modifying existing code and causing potential new bugs.
   - It says add new behaviour without changing the existing code.
 
@@ -92,7 +92,7 @@ Original class untouched
 New feature added safely
 ✅ OCP satisfied
 
-### Liskov Substitution
+### 3.Liskov Substitution
   Subclass must be usable wherever parent class is expected.
   Child should not break parent behavior.
   ❌Wrong Code (LSP Violation):-
@@ -169,7 +169,7 @@ No broken expectations
 Substitution works perfectly
 ✅ LSP satisfied
 
-### Interface Segregation
+### 4.Interface Segregation
  - Do not force classes to implement unused methods
  - It simply means that larger interfaces should be split into smaller ones. By doing so, we can ensure that implementing classes only need to be concerned about the methods that are of interest to them.
 Example :-
@@ -219,7 +219,7 @@ No dummy methods
 “ISP promotes smaller, focused interfaces to reduce unnecessary dependencies.”
 ✅ ISP satisfied
 
-### DEPENDENCY INVERSION PRINCIPLE(DIP)
+### 5.DEPENDENCY INVERSION PRINCIPLE(DIP)
    It says that Depend on abstractions, not concrete classes
 📌 Use interfaces + dependency injection.
 👉High-level class ko low-level class pe directly depend nahi karna chahiye
