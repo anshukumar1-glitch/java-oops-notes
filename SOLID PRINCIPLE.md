@@ -92,7 +92,7 @@ Original class untouched
 New feature added safely
 ✅ OCP satisfied
 
-### 3.Liskov Substitution
+### 3.Liskov Substitution    
   Subclass must be usable wherever parent class is expected.
   Child should not break parent behavior.
   ❌Wrong Code (LSP Violation):-
@@ -296,3 +296,13 @@ High-level class = boss
 Low-level class = worker
 Interface = contract
 ```
+
+
+Real Youtube Wala Padhai.
+->Problem before Solid Principles:
+   - Maintainability
+   - Readability
+   - We intdroduces so many bugs.
+This is invented by Robert C.Martin
+
+   
